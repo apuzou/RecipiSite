@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class RecipeController extends Controller
 {
@@ -66,15 +68,24 @@ class RecipeController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+
+        return view('recipes.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $posts = $request->all();
+
+        Recipe::insert([
+            'id' => Str::uuid(),
+            'title' => $posts['title'],
+            'description' => $posts['description'],
+            'category_id' => $posts['category'],
+            'user_id' => Auth::id(),
+        ]);
+
+        return redirect()->route('recipe.index');
     }
 
     /**
@@ -82,7 +93,11 @@ class RecipeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $recipe = Recipe::with('ingredients', 'steps', 'reviews.user', 'user')->where('recipes.id', $id)->first();
+        $recipe_record = Recipe::find($id);
+        $recipe_record->increment('views');
+
+        return view('recipes.show', compact('recipe'));
     }
 
     /**

@@ -28,13 +28,13 @@
             <h2 class="text-2xl font-bold mb-2">人気レシピ</h2>
             <div class="flex justify-between items-center mb-6">
             @foreach ($popular as $p)
-                <div class="max-12 rounded overflow-hidden shadow-lg mx-4">
+                <a href="{{ route('recipe.show', ['id' => $recipe['id']]) }}" class="max-12 rounded overflow-hidden shadow-lg mx-4">
                     <img class="max-h-44 h-44 w-full object-cover" src="{{ $p->image }}" alt="{{ $p->title }}">
                     <div class="px-6 py-4">
                         <div class="font-bold text-large mb-2">{{ $p->title }}</div>
                         <p class="text-gray-700 text-base">{{ $p->description }}</p>
                     </div>
-                </div>
+                </a>
             @endforeach
             </div>
             <a href="" class="text-gray-600 block text-right">すべての人気レシピへ</a>
