@@ -9,6 +9,12 @@ class Step extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'recipe_id',
+        'step_number',
+        'description'
+    ];
+
     public function recipe()
     {
         return $this->belongsTo(Recipe::class);
